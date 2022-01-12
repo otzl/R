@@ -1,119 +1,129 @@
-# 주석 : 프로그램은 번역하지 않고 넘어가는 부분
+# 벡터 : 동일한 자료가 일차원으로 나열된것
+vec1 <- c(10,20,30,40,50)
+vec1
+vec2 <- c("사과",100,TRUE) # 문자가 하나라도 들어가있으면 문자로 인식. 문자열이 우선순위 제일 높음.
+vec2
+vec3 <- c(100.3,33,TRUE,FALSE) # 숫자 > 논리
+vec3
 
-# 변수 : 데이터를 저장할 수 있는 임시적인 공간
+v_no <- seq(1,7)
+v_name <- c('Apple','Peach','Banana','Grape','Kiwi','Orange','Mango')
+v_price <- c(500,200,100,300,150,250,450)
+v_stock <- c(5,2,4,7,5,3,8)
 
-# num이라는 이름의 변수안에 정수 100을 저장
-num <- 100
-num
-# 함수 : 데이터를 넣으면 특정한 기능을 수행해 데이터를 가공하여 값을 출력
-sum(1,50,60,90,99,87,65,12,33,54,15)
-# 패키지 : 함수들을 모아놓은 묶음
+# 데이터프레임 만드는 방법 = data.frame
+sales <- data.frame(v_no,v_name,v_price,v_stock)
+sales
 
-# 변수의 데이터 타입
-# 숫자형 : 정수 실수등의 숫자들을 저장할 수 있는 형태
-num1 <- 10.3
+# 자료구조를 좀 더 보기좋게 보는 방법
+View(sales)
 
-# 문자형 : 알파벳 한글 등 문자데이터를 저장할 수 있는 형태 
-text1 <- "hello world!"
-text2 <- 'hello world!'
+# DataFrame에서 원하는 데이터만 조회하기
+# sales 데이터프레임에서 v_name 값만 뽑아서 보기
+sales['v_name']
 
-# 논리형 : 참 거짓을 저장할 수 있는 형태
-isCheck <- TRUE
-isCheck <- FALSE
-isCheck <- T
-isCheck <- F
+sales$v_name
+sales[3,2]
+sales[3, ]
+sales[ ,2]
 
-# NA & NULL 형 : 데이터의 상황을 저장할 수 있는 형태
-# NA -> 결측치
-# NULL -> 비어있는 값
-sum(1,2,3,4,5,NA)
-sum(1,2,3,4,5,NULL)
+sales$v_name[1:5]
+sales$v_name[3]
 
-name <- "박병관"
-name
-name <- "황정민"
-name
+# 데이터프레임에서 컬럼의 개수를 알 수 있는 방법
+ncol(sales)
+sales[1,1:ncol(sales)]
+# 데이터프레임에서 행의 개수를 개수를 알 수 있는 방법
+nrow(sales)
+# 데이터프레임에서 컬럼의 이름들만 추출하는 방법
+names(sales)
 
-# 자료구조 : 대량의 데이터들을 효과적으로 관리할 수 있는 방법
-# 벡터(Vector) : R에서 가장 기본이 되는 데이터 구조 
-#                동일한 유형의 데이터가 1차원으로 구성
+# 다양한 함수를 데이터프레임에 적용하기
+sum(sales['v_price'])
+sum(sales$v_price)
 
-# 숫자형 벡터
-v_num <- c(10,15,20)
-v_num
+mean(sales$v_price)
+round(mean(sales$v_price), digits = 2)
+min(sales$v_price)
+max(sales$v_price)
+range(sales$v_price)
 
-# 문자형 벡터
-v_text <- c("사과","딸기","참외","수박","귤","복숭아")
-v_text
+# score 벡터 만들기
+No <- seq(1,10)
+Name <- c('이은비','김서아','장하윤','유이서','나서윤','이지안','박나은','황유나','김하율','윤시아')
+Kor <- c(80,76,26,61,44,19,53,81,26,64)
+Eng <- c(8,76,69,18,82,56,48,14,73,83)
+Math <- c(65,27,100,763,37,77,73,19,74,60)
+Score <- data.frame(No,Name, Kor, Eng, Math)
+Score
+View(Score)
 
-# 논리형 벡터
-v_log <- c(T,F,T,F,T,T)
+# Kor열 데이터만 출력하세요
+Score$Kor
+Score[ ,3]
 
-v_text[5]
+# Eng열 데이터만 출력하세요
+Score$Eng
+Score[ ,4]
 
-# 일률적인 벡터 생성
-v1 <- c(1,2,3,4,5,6,7,8,9,10)
-v2 <- seq(1,10)
-v3 <- 1:10
+# 컬럼개수를 출력하세요
+ncol(Score)
 
-v4 <- seq(1,100, by = 4) # by = 증가하는 숫자
-v5 = seq(1,100, length.out = 4) # length.out = 앞에 적힌 숫자를 length.out 만큼 분류됨
+# 행개수를 출력하세요
+nrow(Score)
 
-# 벡터의 반복
-x <- seq(1,3)
-rep(x, times = 2) # times = 전체반복
-rep(x, each = 2) # each = 각각의 요소만큼 반복
+# 컬럼명을 출력하세요
+names(Score)
 
-# 실습
-foods = c("간짜장","족발","굴보쌈","참돔","감자탕","순대국밥")
+# Kor의 평균점수를 소수 첫째자리까지
+round(mean(Score$Kor), digits = 1)
 
-# 문제1. 간짜장 굴보쌈 감자탕을 콘솔에 출력하시오
+# Eng 점수 중 가장 높은 점수
+max(Score$Eng)
 
-# 불리언) 
-foods1 <- c(T,F,T,F,T,F)
-foods[foods1]
-# 시퀀스)
-a = seq(1,6, by = 2)
-foods[a]
-# 선언)
-aa = c(1,3,5)
-foods[aa]
-# 랭스아웃
-foods[seq(1,5, length.out = 3)]
+# Math 점수 중 가장 낮은 점수
+min(Score$Math)
 
-# 선생님 풀이
-c(foods[1],foods[3],foods[5])
-foods[c(1,3,5)]
+# 내가 작업하는 공간에 파일들의 목록보기
+list.files()
 
-# 불리언 인덱싱 -> true에 해당되는 값만 꺼내기
-x = seq(1,20, by = 3)
+# 엑셀 데이터파일을 읽을 수 있는 함수들이 모여있는 패키지 다운로드하기
+install.packages("readxl")
 
-# x의 요소 중 5보다 큰 값만 꺼내기
-x[x > 5]
-# x의 요소 중 7과 같은 값만 꺼내기
-x[x == 7]
 
-# 특정 요소를 제거하고 보기
-x[-c(1,2,3)]
-x
+# 패키지를 로딩하여 사용하기
+library(readxl)
 
-# 특정 위치의 요소값을 변경
-x[c(1,2)] <- 99
-x
+# 함수를 사용하여 파일 불러오기
+score <- read_excel("score.xlsx")
 
-# 문제1.
-v1 = seq(100,300, by = 3)
+# csv파일을 읽어와서 데이터프레임 저장
+titanic <- read.csv("titanic.csv")
+titanic
+View(titanic)
 
-# 문제2.
-v1[seq(20,30)]
-v1[20:30]
+list.files()
 
-# 문제3.
-v1[-(20:30)]
-v1[-seq(20:30)]
+# 문자열 데이터를 범주형으로 읽어들이는 옵션
+titanic_2 <- read.csv("titanic_2.csv", stringsAsFactors = TRUE)
+titanic_2
 
-# 문제4.
-v1[v1>200]
+list.files()
+
+heart <-read.csv("heart_failure_clinical_records_dataset.csv", stringsAsFactors = TRUE)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
