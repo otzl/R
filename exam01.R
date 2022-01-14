@@ -1,134 +1,107 @@
-# 벡터 : 동일한 자료가 일차원으로 나열된것
-vec1 <- c(10,20,30,40,50)
-vec1
-vec2 <- c("사과",100,TRUE) # 문자가 하나라도 들어가있으면 문자로 인식. 문자열이 우선순위 제일 높음.
-vec2
-vec3 <- c(100.3,33,TRUE,FALSE) # 숫자 > 논리
-vec3
-
-v_no <- seq(1,7)
-v_name <- c('Apple','Peach','Banana','Grape','Kiwi','Orange','Mango')
-v_price <- c(500,200,100,300,150,250,450)
-v_stock <- c(5,2,4,7,5,3,8)
-
-# 데이터프레임 만드는 방법 = data.frame
-sales <- data.frame(v_no,v_name,v_price,v_stock)
-sales
-
-# 자료구조를 좀 더 보기좋게 보는 방법
-View(sales)
-
-# DataFrame에서 원하는 데이터만 조회하기
-# sales 데이터프레임에서 v_name 값만 뽑아서 보기
-sales['v_name']
-
-sales$v_name
-sales[3,2]
-sales[3, ]
-sales[ ,2]
-
-sales$v_name[1:5]
-sales$v_name[3]
-
-# 데이터프레임에서 컬럼의 개수를 알 수 있는 방법
-ncol(sales)
-sales[1,1:ncol(sales)]
-# 데이터프레임에서 행의 개수를 개수를 알 수 있는 방법
-nrow(sales)
-# 데이터프레임에서 컬럼의 이름들만 추출하는 방법
-names(sales)
-
-# 다양한 함수를 데이터프레임에 적용하기
-sum(sales['v_price'])
-sum(sales$v_price)
-
-mean(sales$v_price)
-round(mean(sales$v_price), digits = 2)
-min(sales$v_price)
-max(sales$v_price)
-range(sales$v_price)
-
-# score 벡터 만들기
-No <- seq(1,10)
-Name <- c('이은비','김서아','장하윤','유이서','나서윤','이지안','박나은','황유나','김하율','윤시아')
-Kor <- c(80,76,26,61,44,19,53,81,26,64)
-Eng <- c(8,76,69,18,82,56,48,14,73,83)
-Math <- c(65,27,100,763,37,77,73,19,74,60)
-Score <- data.frame(No,Name, Kor, Eng, Math)
-Score
-View(Score)
-
-# Kor열 데이터만 출력하세요
-Score$Kor
-Score[ ,3]
-
-# Eng열 데이터만 출력하세요
-Score$Eng
-Score[ ,4]
-
-# 컬럼개수를 출력하세요
-ncol(Score)
-
-# 행개수를 출력하세요
-nrow(Score)
-
-# 컬럼명을 출력하세요
-names(Score)
-
-# Kor의 평균점수를 소수 첫째자리까지
-round(mean(Score$Kor), digits = 1)
-
-# Eng 점수 중 가장 높은 점수
-max(Score$Eng)
-
-# Math 점수 중 가장 낮은 점수
-min(Score$Math)
-
-# 내가 작업하는 공간에 파일들의 목록보기
 list.files()
 
-# 엑셀 데이터파일을 읽을 수 있는 함수들이 모여있는 패키지 다운로드하기
-install.packages("readxl")
-
-
-# 패키지를 로딩하여 사용하기
-library(readxl)
-
-# 함수를 사용하여 파일 불러오기
-score <- read_excel("score.xlsx")
-
-# csv파일을 읽어와서 데이터프레임 저장
-titanic <- read.csv("titanic.csv")
+titanic <- read.csv("titanic_2.csv")
 titanic
-View(titanic)
+
+# 데이터의 앞부분을 확인(맨 앞에서 6개)
+head(titanic, 8)
+# 데이터의 뒷부분을 확인(맨 아래에서 6개)
+tail(titanic, 3)
+# 데이터 속성별 자료형태 출력(데이터 크기는 행*열
+str(titanic)
+# 데이터 속성별 통계량 출력
+summary(titanic)
+
+# 사분위수를 시각화한 그래프
+# boxplot()
+boxplot(titanic$Fare)
+
+# 데이터 개수 알아보기
+table(titanic$Embarked)
+
+# 데이터의 차원 출력
+dim(titanic)
+
+# wordcloud2 패키지 설치 및 적용
+install.packages("devtools")
+
+library(devtools)
+
+devtools::install_github("lchiffon/wordcloud2")
+library(wordcloud2)
+
+# wordcloud2를 그리는 방법
+# 단어와 해당되는 빈도수를 데이터프레임으로 만들면 끝
+word <- c('닭발','곱창','엽떡','해산물','마라탕')
+fre <- c(100,95,90,1,80)
+food <- data.frame(word,fre)
+food
+# 패키지 안에 있는 함수의 속성을 알 수 있는 방법
+??wordcloud2 # 함수 속성 알고 싶으면 앞에 물음표 두개 붙이면 됨
+wordcloud2(food,size = 1, fontFamily = '궁서체', color = 'random-light')
+
+list.files()
+baseball<- read.csv("baseball.csv")
+
+
+bb <- data.frame(구단 = baseball$구단, 승 = (baseball$승)^4)
+
+wordcloud2(bb,size = 0.5, fontFamily = '바탕체', color='random-light')
 
 list.files()
 
-# 문자열 데이터를 범주형으로 읽어들이는 옵션
-titanic_2 <- read.csv("titanic_2.csv", stringsAsFactors = TRUE)
-titanic_2
+stu<- read.csv( "대학 계열별 학과수 및 학년별 재적학생수.csv")
+
+title <- data.frame(학과별 = stu$소계열, 학과수 = stu$학과수)
+wordcloud2(title, size = 0.5)
+
+title1 <- data.frame(학과별 = stu$소계열, 재적학생수 = stu$재적학생수)
+wordcloud2(title1, size = 0.5)
+
+#java, rjava 설치
+install.packages("remotes")
+remotes::install_github("mrchypark/multilinguer")
+library(multilinguer)
+install_jdk()
+
+#의존성 패키지 설치
+install.packages(c("hash", "tau", "Sejong", "RSQLite", "devtools", "bit", "rex", "lazyeval", "htmlwidgets", "crosstalk", "promises", "later", "sessioninfo", "xopen", "bit64", "blob", "DBI", "memoise", "plogr", "covr", "DT", "rcmdcheck", "rversions"), type = "binary")
+
+remotes::install_github('haven-jeon/KoNLP', upgrade = "never", INSTALL_opts=c("--no-multiarch"))
+
+# 패키지 로딩하기
+library(KoNLP)
+
+v1 <- "배는 부르지만 엽떡은 먹고싶다. 엽떡은 조선대점이 찐인거 같다. 왜 하필 그렇게 맛있게 만들어가지고 맨날 먹고 싶은건지 엉엉"
+
+extractNoun(v1)
+
+useNIADic()
 
 list.files()
 
-heart <-read.csv("heart_failure_clinical_records_dataset.csv", stringsAsFactors = TRUE)
+# 엑셀 또는 메모장의 데이터를 한 줄씩 읽어와서 벡터형태로 저장하는 함수
+news <- readLines("2021_11_29_기준 인공지능 뉴스제목 500개.csv")
+news
 
+# 명사 추출하는 함수
+news_noun <- extractNoun(news)
+head(news_noun)
 
+# 리스트 형태의 데이터를 벡터로 변환하는 함수
+news_unlist <- unlist(news_noun)
+news_unlist
 
+# 빈도수를 확인하는 함수
+result1 <- table(news_unlist)
 
+# 정렬하기
+result2 <- sort(result1, decreasing = T)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# wordcloud2 패키지 사용하기
+library(wordcloud2)
+result3 <- result2[-1]
+result3
+wordcloud2(result2, size = 1.5)
 
 
