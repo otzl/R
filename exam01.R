@@ -1,50 +1,119 @@
-# 데이터 전처리 할 때 주로 사용하는 패키지 dplyr
-install.packages("dplyr")
-library(dplyr)
-library(readxl)
+# 주석 : 프로그램은 번역하지 않고 넘어가는 부분
 
-list.files()
-score <- read_excel("score_10차시.xlsx")
-score
-# DataFrame의 컬럼명을 바꾸는 함수 rename()
-score <- score %>% rename(id = 학번, grade = 학년, mid = 중간고사, fin = 기말고사, assign = 과제제출, att = 출석점수)
+# 변수 : 데이터를 저장할 수 있는 임시적인 공간
 
+# num이라는 이름의 변수안에 정수 100을 저장
+num <- 100
+num
+# 함수 : 데이터를 넣으면 특정한 기능을 수행해 데이터를 가공하여 값을 출력
+sum(1,50,60,90,99,87,65,12,33,54,15)
+# 패키지 : 함수들을 모아놓은 묶음
 
-score
-# 조건에 맞는 행만 추출하기 filter()
-# 조건의 결과가 TRUE인 행만 추출
-score
+# 변수의 데이터 타입
+# 숫자형 : 정수 실수등의 숫자들을 저장할 수 있는 형태
+num1 <- 10.3
 
-# grade가 1인 행만 출력하기
-score %>% filter(grade == 1)
+# 문자형 : 알파벳 한글 등 문자데이터를 저장할 수 있는 형태 
+text1 <- "hello world!"
+text2 <- 'hello world!'
 
-# grade가 1이고 mid점수가 25점 이상인 학생의 행만 출력
-score %>% filter(grade == 1 & mid >= 25)
-score %>% filter(grade == 1) %>% filter(mid >= 25)
+# 논리형 : 참 거짓을 저장할 수 있는 형태
+isCheck <- TRUE
+isCheck <- FALSE
+isCheck <- T
+isCheck <- F
 
-# 원하는 컬럼만 추출하는 함수 select()
-names(score)
-score %>% select(grade)
-score %>% select(grade, mid)
+# NA & NULL 형 : 데이터의 상황을 저장할 수 있는 형태
+# NA -> 결측치
+# NULL -> 비어있는 값
+sum(1,2,3,4,5,NA)
+sum(1,2,3,4,5,NULL)
 
-# 문제. 1학년 학생들의 중간점수와 기말점수만 출력하시오
-score %>% filter (grade == 1) %>% select(mid,fin)
+name <- "박병관"
+name
+name <- "황정민"
+name
 
-# 정렬할때 사용하는 함수 arrange()
-score %>% arrange(desc(mid))
-score %>% arrange(mid, fin)
-                  
-# 문제, 4학년 학생들의 기말고사 점수만 내림차순으로 출력하시오
-score %>% filter(grade ==4) %>% select(fin) %>% arrange(desc(fin))
+# 자료구조 : 대량의 데이터들을 효과적으로 관리할 수 있는 방법
+# 벡터(Vector) : R에서 가장 기본이 되는 데이터 구조 
+#                동일한 유형의 데이터가 1차원으로 구성
 
-# 파생변수 만드는 함수 mutate()
-score <- score %>% mutate(total = mid + fin + assign + att)
-score
+# 숫자형 벡터
+v_num <- c(10,15,20)
+v_num
 
-# 조건을 통해 파생변수 만들고 값 넣기
-score <- score %>% mutate(fp = ifelse(total >= 60, "pass", "fail"))
-score
+# 문자형 벡터
+v_text <- c("사과","딸기","참외","수박","귤","복숭아")
+v_text
 
+# 논리형 벡터
+v_log <- c(T,F,T,F,T,T)
+
+v_text[5]
+
+# 일률적인 벡터 생성
+v1 <- c(1,2,3,4,5,6,7,8,9,10)
+v2 <- seq(1,10)
+v3 <- 1:10
+
+v4 <- seq(1,100, by = 4) # by = 증가하는 숫자
+v5 = seq(1,100, length.out = 4) # length.out = 앞에 적힌 숫자를 length.out 만큼 분류됨
+
+# 벡터의 반복
+x <- seq(1,3)
+rep(x, times = 2) # times = 전체반복
+rep(x, each = 2) # each = 각각의 요소만큼 반복
+
+# 실습
+foods = c("간짜장","족발","굴보쌈","참돔","감자탕","순대국밥")
+
+# 문제1. 간짜장 굴보쌈 감자탕을 콘솔에 출력하시오
+
+# 불리언) 
+foods1 <- c(T,F,T,F,T,F)
+foods[foods1]
+# 시퀀스)
+a = seq(1,6, by = 2)
+foods[a]
+# 선언)
+aa = c(1,3,5)
+foods[aa]
+# 랭스아웃
+foods[seq(1,5, length.out = 3)]
+
+# 선생님 풀이
+c(foods[1],foods[3],foods[5])
+foods[c(1,3,5)]
+
+# 불리언 인덱싱 -> true에 해당되는 값만 꺼내기
+x = seq(1,20, by = 3)
+
+# x의 요소 중 5보다 큰 값만 꺼내기
+x[x > 5]
+# x의 요소 중 7과 같은 값만 꺼내기
+x[x == 7]
+
+# 특정 요소를 제거하고 보기
+x[-c(1,2,3)]
+x
+
+# 특정 위치의 요소값을 변경
+x[c(1,2)] <- 99
+x
+
+# 문제1.
+v1 = seq(100,300, by = 3)
+
+# 문제2.
+v1[seq(20,30)]
+v1[20:30]
+
+# 문제3.
+v1[-(20:30)]
+v1[-seq(20:30)]
+
+# 문제4.
+v1[v1>200]
 
 
 
